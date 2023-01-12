@@ -1,0 +1,40 @@
+name: Generate Helm README docs
+on:
+  workflow_dispatch:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write  
+
+jobs:
+  docs:
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.event.pull_request.head.ref }}
+        
+    - name: Helm create
+      run: |
+        helm create test
+        helm create test1
+        helm create test2
+
+    - name: Render helm docs singal
+      uses: shaybentk/helm-docs-action@v0.0.1
+      with:
+        working-chart: test
+        git-push: "true"
+
+    - name: Render helm docs multie
+      uses: shaybentk/helm-docs-action@v0.0.1
+      with:
+        working-dir: test1,test2
+        git-push: "true"
+
+
