@@ -1,0 +1,64 @@
+name: helm-docs-gh-actions
+author: helm-docs ,ShayB.T
+description: A Github action for generating helm documentation using helm-docs and gomplate.
+
+inputs:
+  working-dir:
+    description: Comma separated list of directories to generate docs for (ignored if `atlantis-file` or `find-dir` is set)
+    required: false
+    default: "."
+  working-chart:
+    description: Comma separated list of directories to generate docs for (ignored if `atlantis-file` or `find-dir` is set)
+    required: false
+    default: "."
+  output-file:
+    description: File in module directory where the docs should be placed
+    required: false
+    default: "README.md"
+  git-push:
+    description: If true it will commit and push the changes
+    required: false
+    default: "false"
+  git-push-user-name:
+    description: If empty the name of the GitHub Actions bot will be used (i.e. `github-actions[bot]`)
+    required: false
+    default: ""
+  git-push-user-email:
+    description: If empty the no-reply email of the GitHub Actions bot will be used (i.e. `github-actions[bot]@users.noreply.github.com`)
+    required: false
+    default: ""
+  git-commit-message:
+    description: Commit message
+    required: false
+    default: "helm-docs: automated action"
+  git-push-sign-off:
+    description: If true it will sign-off commit
+    required: false
+    default: "false"
+  fail-on-diff:
+    description: Fail the job if there is any diff found between the generated output and existing file (ignored if `git-push` is set)
+    required: false
+    default: "false"
+
+outputs:
+  num_changed:
+    description: Number of files changed
+
+runs:
+  using: docker
+  image: Dockerfile
+  env:
+    INPUT_WORKING_DIR: ${{ inputs.working-dir }}
+    INPUT_CHART: ${{ inputs.working-chart}}
+    INPUT_OUTPUT_FILE: ${{ inputs.output-file }}
+    INPUT_OUTPUT_METHOD: ${{ inputs.output-method }}
+    INPUT_GIT_PUSH: ${{ inputs.git-push }}
+    INPUT_GIT_COMMIT_MESSAGE: ${{ inputs.git-commit-message }}
+    INPUT_FAIL_ON_DIFF: ${{ inputs.fail-on-diff }}
+    INPUT_GIT_PUSH_SIGN_OFF: ${{ inputs.git-push-sign-off }}
+    INPUT_GIT_PUSH_USER_NAME: ${{ inputs.git-push-user-name }}
+    INPUT_GIT_PUSH_USER_EMAIL: ${{ inputs.git-push-user-email }}
+
+branding:
+  icon: file-text
+  color: gray-dark
