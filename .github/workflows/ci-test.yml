@@ -24,6 +24,8 @@ jobs:
         helm create test
         helm create test1
         helm create test2
+        mkdir test 
+        helm create test4
 
     - name: Render helm docs singal
       uses: shaybentk/helm-docs-action@v0.0.1
@@ -37,4 +39,9 @@ jobs:
         working-dir: test1,test2
         git-push: "true"
 
+    - name: Render helm docs multie
+      uses: shaybentk/helm-docs-action@v0.0.1
+      with:
+        working-dir: test/test4
+        git-push: "true"
 
