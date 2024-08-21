@@ -11,6 +11,10 @@ inputs:
     description: Comma separated list of directories to generate docs for (ignored if `atlantis-file` or `find-dir` is set)
     required: false
     default: "."
+  helm-doc-args:
+    description: Additional Arguments to pass to helm-docs
+    required: false
+    default: ""
   output-file:
     description: File in module directory where the docs should be placed
     required: false
@@ -58,6 +62,7 @@ runs:
     INPUT_GIT_PUSH_SIGN_OFF: ${{ inputs.git-push-sign-off }}
     INPUT_GIT_PUSH_USER_NAME: ${{ inputs.git-push-user-name }}
     INPUT_GIT_PUSH_USER_EMAIL: ${{ inputs.git-push-user-email }}
+    INPUT_HELM_DOC_ARGS: ${{ inputs.helm-doc-args }}
 
 branding:
   icon: file-text
